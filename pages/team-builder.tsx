@@ -8,7 +8,7 @@ import { createContext, Dispatch, Reducer, ReducerAction, useReducer } from "rea
 import HeroPortrait from "../components/hero/portrait";
 import HeroTeam from "../components/hero/team";
 
-export type Action = {type: "selectHero", data: Hero} | {type: "deselectHero", data: Hero};
+export type Action = {type: "selectHero", data: Hero} | {type: "deselectHero", data: Hero} | {type: "clearTeam", data: "radiant" | "dire"};
 export type State = {selectedHeroes: Hero[]};
 export const TeamBuilderDispatch = createContext<Dispatch<Action>>(undefined!)
 
@@ -23,6 +23,8 @@ const reducer: Reducer<State, Action> = (state, action) => {
       return {selectedHeroes: state.selectedHeroes.concat([action.data])};
     case "deselectHero":
       return {selectedHeroes: state.selectedHeroes.filter((hero) => hero.id != action.data.id)}
+    case "clearTeam":
+      return initialState;
     default:
       return state;
   }
