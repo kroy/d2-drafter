@@ -6,6 +6,7 @@ import { OpenDota } from 'opendota.js';
 import HeroGroup from "../components/hero/group";
 import { createContext, Dispatch, Reducer, ReducerAction, useReducer } from "react";
 import HeroPortrait from "../components/hero/portrait";
+import HeroTeam from "../components/hero/team";
 
 export type Action = {type: "selectHero", data: Hero} | {type: "deselectHero", data: Hero};
 export type State = {selectedHeroes: Hero[]};
@@ -21,7 +22,7 @@ const reducer: Reducer<State, Action> = (state, action) => {
       }
       return {selectedHeroes: state.selectedHeroes.concat([action.data])};
     case "deselectHero":
-      return {selectedHeroes: state.selectedHeroes.filter((hero) => hero.id == action.data.id)}
+      return {selectedHeroes: state.selectedHeroes.filter((hero) => hero.id != action.data.id)}
     default:
       return state;
   }
@@ -45,18 +46,16 @@ export default function TeamBuilder({ heroes } : {
       <Head>
         <title>Dota2 Team Builder</title>
       </Head>
-      <div>
-        {state.selectedHeroes.map((hero: Hero) => (
-          <HeroPortrait hero={hero} key={hero.id} />
-        ))}
-      </div>
-      <div>
-        <TeamBuilderDispatch.Provider value={dispatch}>
-          <HeroGroup heroes={strHeroes} selectedHeroes={state.selectedHeroes} />
-          <HeroGroup heroes={agiHeroes} selectedHeroes={state.selectedHeroes} />
-          <HeroGroup heroes={intHeroes} selectedHeroes={state.selectedHeroes} />
-        </TeamBuilderDispatch.Provider>
-      </div>
+      <TeamBuilderDispatch.Provider value={dispatch}>
+        <div>
+          <HeroTeam heroes={state.selectedHeroes} />
+        </div>
+        <div>
+            <HeroGroup heroes={strHeroes} selectedHeroes={state.selectedHeroes} />
+            <HeroGroup heroes={agiHeroes} selectedHeroes={state.selectedHeroes} />
+            <HeroGroup heroes={intHeroes} selectedHeroes={state.selectedHeroes} />
+        </div>
+      </TeamBuilderDispatch.Provider>
     </Layout>
   )
 }
