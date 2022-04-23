@@ -1,12 +1,23 @@
-import type { Hero } from "../../types/Hero";
+import { Attribute, Hero, placeholderHero } from "../../types/Hero";
 import classnames from 'classnames';
 
 export default function HeroPortrait({ hero, onClick }: { hero: Hero, onClick?: () => void }) {
-  const attrColors: {[attr: string]: string} = {"str": "bg-red-700", "agi": "bg-emerald-700", "int": "bg-sky-700"}
+  const isPlaceholder: boolean = hero.id === placeholderHero.id;
+  const attrColors: Map<Attribute, string> = new Map([["str","bg-red-700"], ["agi", "bg-emerald-700"], ["int", "bg-sky-700"]]);
+  const attrColor: string = isPlaceholder? "" : (attrColors.get(hero.primary_attr) || "");
   return (
     <div
-      className={classnames("w-24 h-12 rounded-lg ring-2 ring-amber-400", attrColors[hero.primary_attr], {"cursor-pointer": onClick})}
-      {... onClick && {onClick: onClick} }
+      className={
+        classnames(
+          "p-0.5 font-mono font-small font-light w-28 h-14 rounded-lg ring-2",
+          attrColor,
+          {
+            "ring-amber-400": !isPlaceholder,
+            "ring-slate-500": isPlaceholder || !onClick,
+            "cursor-pointer": onClick
+          }
+        )
+      }{... onClick && {onClick: onClick} }
     >
       { hero.localized_name }
     </div>

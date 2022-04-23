@@ -4,9 +4,11 @@ export interface Hero {
   localized_name: string;
   attack_type: "Melee" | "Ranged";
   roles: string[];
-  primary_attr: "str" | "agi" | "int";
+  primary_attr: Attribute;
   legs: number;
 }
+
+export type Attribute = "str" | "agi" | "int"
 
 export const placeholderHero : Hero = {
   id: 69696969696,

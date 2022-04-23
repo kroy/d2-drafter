@@ -17,7 +17,7 @@ export default function HeroTeam({ heroes, size = 5 } : { heroes: Hero[], size?:
       {heroes.map((hero) => (
         <HeroPortrait key={hero.id} hero={hero} onClick={heroClick(hero)} />
       ))}
-      {range(placeholderCount).map((placeholderId) => (
+      {placeholderCount > 0 && range(placeholderCount).map((placeholderId) => (
         <HeroPortrait key={`placeholder-${placeholderId}`} hero={placeholderHero} />
       ))}
     </div>
