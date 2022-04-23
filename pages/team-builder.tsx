@@ -51,9 +51,9 @@ export default function TeamBuilder({ heroes } : {
           <HeroTeam heroes={state.selectedHeroes} />
         </div>
         <div>
-            <HeroGroup heroes={strHeroes} selectedHeroes={state.selectedHeroes} />
-            <HeroGroup heroes={agiHeroes} selectedHeroes={state.selectedHeroes} />
-            <HeroGroup heroes={intHeroes} selectedHeroes={state.selectedHeroes} />
+            <HeroGroup name="Strength" heroes={strHeroes} selectedHeroes={state.selectedHeroes} />
+            <HeroGroup name="Agility" heroes={agiHeroes} selectedHeroes={state.selectedHeroes} />
+            <HeroGroup name="Intelligence" heroes={intHeroes} selectedHeroes={state.selectedHeroes} />
         </div>
       </TeamBuilderDispatch.Provider>
     </Layout>
