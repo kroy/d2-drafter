@@ -47,10 +47,10 @@ export default function TeamBuilder({ heroes } : {
         <title>Dota2 Team Builder</title>
       </Head>
       <TeamBuilderDispatch.Provider value={dispatch}>
-        <div>
+        <div className="sticky top-0 bg-slate-800/90">
           <HeroTeam heroes={state.selectedHeroes} />
         </div>
-        <div>
+        <div className="max-w-fit">
             <HeroGroup name="Strength" heroes={strHeroes} selectedHeroes={state.selectedHeroes} />
             <HeroGroup name="Agility" heroes={agiHeroes} selectedHeroes={state.selectedHeroes} />
             <HeroGroup name="Intelligence" heroes={intHeroes} selectedHeroes={state.selectedHeroes} />

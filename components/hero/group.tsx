@@ -9,7 +9,7 @@ export default function HeroGroup({ name, heroes, selectedHeroes } : { name: str
   return (
     <section className="p-4">
       <h1 className="pb-4 pt-4 text-lg font-mono font-bold">{name}</h1>
-      <div className="grid grid-cols-10 grid-flow-row gap-4 max-w-fit place-items-center">
+      <div className="grid grid-cols-3 lg:grid-cols-10 grid-flow-row gap-4 max-w-fit place-items-center">
         {heroes.map((hero: Hero) => (
           <div className="max-w-fit" key={hero.id}>
             <HeroPortrait hero={hero} onClick={heroClick(hero)} />
