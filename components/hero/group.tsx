@@ -6,7 +6,7 @@ import HeroPortrait from "./portrait";
 export default function HeroGroup({ name, heroes, selectedHeroes } : { name: string, heroes: Hero[], selectedHeroes: Hero[] }) {
   const [collapsed, setCollapsed] = useState(false)
   const dispatch: Dispatch<Action> = useContext(TeamBuilderDispatch);
-  const heroClick = (hero: Hero) => (() => dispatch({type: "selectHero", data: hero}));
+  const heroClick = (hero: Hero) => (() => dispatch({type: "selectHero", team: "radiant", hero: hero}));
   const heroSelectable = (hero: Hero) => !selectedHeroes.includes(hero);
   const toggleCollapsed = () => setCollapsed(!collapsed)
   return (

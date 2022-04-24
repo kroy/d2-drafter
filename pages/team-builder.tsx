@@ -5,26 +5,26 @@ import type { Hero } from '../types/Hero';
 import { OpenDota } from 'opendota.js';
 import HeroGroup from "../components/hero/group";
 import { createContext, Dispatch, Reducer, ReducerAction, useReducer } from "react";
-import HeroPortrait from "../components/hero/portrait";
 import HeroTeam from "../components/hero/team";
 
-export type Action = {type: "selectHero", data: Hero} | {type: "deselectHero", data: Hero} | {type: "clearTeam", data: "radiant" | "dire"};
-export type State = {selectedHeroes: Hero[]};
+export type Team = "radiant" | "dire";
+export type Action = {type: "selectHero", team: Team, hero: Hero} | {type: "deselectHero", team: Team, hero: Hero} | {type: "clearTeam", team: Team};
+export type State = {[key in Team]: { selectedHeroes: Hero[] }};
 export const TeamBuilderDispatch = createContext<Dispatch<Action>>(undefined!)
 
-const initialState: State = { selectedHeroes: []}
+const initialState: State = { radiant: {selectedHeroes: []}, dire: {selectedHeroes: []}}
 
 const reducer: Reducer<State, Action> = (state, action) => {
   switch (action.type) {
     case "selectHero":
-      if (state.selectedHeroes.includes(action.data)) {
+      if (state[action.team].selectedHeroes.includes(action.hero)) {
         return state;
       }
-      return {selectedHeroes: state.selectedHeroes.concat([action.data])};
+      return {...state, [action.team]: {selectedHeroes: state[action.team].selectedHeroes.concat([action.hero])}};
     case "deselectHero":
-      return {selectedHeroes: state.selectedHeroes.filter((hero) => hero.id != action.data.id)}
+      return {...state, [action.team]: {selectedHeroes: state[action.team].selectedHeroes.filter((hero) => hero.id !== action.hero.id)}};
     case "clearTeam":
-      return initialState;
+      return {...state, [action.team]: initialState[action.team]};
     default:
       return state;
   }
@@ -39,6 +39,7 @@ export default function TeamBuilder({ heroes } : {
   const compareHeroes = (a: Hero, b: Hero) : number => {
     return a.localized_name.localeCompare(b.localized_name);
   }
+  const selectedHeroes = state.radiant.selectedHeroes.concat(state.dire.selectedHeroes);
   const strHeroes = heroes.filter((hero : Hero) => hero.primary_attr == "str").sort(compareHeroes);
   const agiHeroes = heroes.filter((hero : Hero) => hero.primary_attr == "agi").sort(compareHeroes);
   const intHeroes = heroes.filter((hero : Hero) => hero.primary_attr == "int").sort(compareHeroes);
@@ -50,12 +51,12 @@ export default function TeamBuilder({ heroes } : {
       </Head>
       <TeamBuilderDispatch.Provider value={dispatch}>
         <div className="sticky top-0 bg-slate-800/90">
-          <HeroTeam heroes={state.selectedHeroes} />
+          <HeroTeam heroes={state.radiant.selectedHeroes} />
         </div>
         <div className="max-w-fit">
-            <HeroGroup name="Strength" heroes={strHeroes} selectedHeroes={state.selectedHeroes} />
-            <HeroGroup name="Agility" heroes={agiHeroes} selectedHeroes={state.selectedHeroes} />
-            <HeroGroup name="Intelligence" heroes={intHeroes} selectedHeroes={state.selectedHeroes} />
+            <HeroGroup name="Strength" heroes={strHeroes} selectedHeroes={selectedHeroes} />
+            <HeroGroup name="Agility" heroes={agiHeroes} selectedHeroes={selectedHeroes} />
+            <HeroGroup name="Intelligence" heroes={intHeroes} selectedHeroes={selectedHeroes} />
         </div>
       </TeamBuilderDispatch.Provider>
     </Layout>
