@@ -9,20 +9,21 @@ import HeroTeam from "../components/hero/team";
 
 export type Team = "radiant" | "dire";
 export type Action = {type: "selectHero", team: Team, hero: Hero} | {type: "deselectHero", team: Team, hero: Hero} | {type: "clearTeam", team: Team};
-export type State = {[key in Team]: { selectedHeroes: Hero[] }};
+export type TeamState = { selectedHeroes: Hero[], size: number };
+export type State = {[key in Team]: TeamState};
 export const TeamBuilderDispatch = createContext<Dispatch<Action>>(undefined!)
 
-const initialState: State = { radiant: {selectedHeroes: []}, dire: {selectedHeroes: []}}
+const initialState: State = { radiant: {selectedHeroes: [], size: 5}, dire: {selectedHeroes: [], size: 0}}
 
 const reducer: Reducer<State, Action> = (state, action) => {
   switch (action.type) {
     case "selectHero":
-      if (state[action.team].selectedHeroes.includes(action.hero)) {
+      if (state[action.team].selectedHeroes.length >= state[action.team].size || state[action.team].selectedHeroes.includes(action.hero)) {
         return state;
       }
-      return {...state, [action.team]: {selectedHeroes: state[action.team].selectedHeroes.concat([action.hero])}};
+      return {...state, [action.team]: {...state[action.team], selectedHeroes: state[action.team].selectedHeroes.concat([action.hero])}};
     case "deselectHero":
-      return {...state, [action.team]: {selectedHeroes: state[action.team].selectedHeroes.filter((hero) => hero.id !== action.hero.id)}};
+      return {...state, [action.team]: {...state[action.team], selectedHeroes: state[action.team].selectedHeroes.filter((hero) => hero.id !== action.hero.id)}};
     case "clearTeam":
       return {...state, [action.team]: initialState[action.team]};
     default:
@@ -51,7 +52,7 @@ export default function TeamBuilder({ heroes } : {
       </Head>
       <TeamBuilderDispatch.Provider value={dispatch}>
         <div className="sticky top-0 bg-slate-800/90">
-          <HeroTeam heroes={state.radiant.selectedHeroes} />
+          <HeroTeam {...state.radiant} teamName="radiant" />
         </div>
         <div className="max-w-fit">
             <HeroGroup name="Strength" heroes={strHeroes} selectedHeroes={selectedHeroes} />

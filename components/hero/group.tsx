@@ -10,8 +10,8 @@ export default function HeroGroup({ name, heroes, selectedHeroes } : { name: str
   const heroSelectable = (hero: Hero) => !selectedHeroes.includes(hero);
   const toggleCollapsed = () => setCollapsed(!collapsed)
   return (
-    <section className="p-2 lg:p-4">
-      <h2 className="pb-4 pt-4 text-lg font-mono font-bold">{name} 
+    <section className="p-2 lg:pl-4 lg:pr-4">
+      <h2 className="pb-4 text-lg font-mono font-bold">{name} 
         <button className="w-8" onClick={toggleCollapsed}>{collapsed? "+" : "-"}</button>
       </h2>
       <div className="flex flex-row flex-wrap gap-4 justify-center max-w-full">
