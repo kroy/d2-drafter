@@ -3,11 +3,11 @@ import { Hero } from "../../types/Hero";
 import { TeamBuilderDispatch, Action } from "../../pages/team-builder";
 import HeroPortrait from "./portrait";
 
-export default function HeroGroup({ name, heroes, selectedHeroes } : { name: string, heroes: Hero[], selectedHeroes: Hero[] }) {
+export default function HeroGroup({ name, heroes, selectedHeroes, bannedHeroes } : { name: string, heroes: Hero[], selectedHeroes: Hero[], bannedHeroes: Hero[] }) {
   const [collapsed, setCollapsed] = useState(false)
   const dispatch: Dispatch<Action> = useContext(TeamBuilderDispatch);
   const heroClick = (hero: Hero) => (() => dispatch({type: "selectHero", team: "radiant", hero: hero}));
-  const heroSelectable = (hero: Hero) => !selectedHeroes.includes(hero);
+  const heroSelectable = (hero: Hero) => !selectedHeroes.concat(bannedHeroes).includes(hero);
   const toggleCollapsed = () => setCollapsed(!collapsed)
   return (
     <section className="p-2 lg:pl-4 lg:pr-4">
@@ -17,7 +17,7 @@ export default function HeroGroup({ name, heroes, selectedHeroes } : { name: str
       <div className="flex flex-row flex-wrap gap-4 justify-center max-w-full">
         {!collapsed && heroes.map((hero: Hero) => (
           <div className="max-w-fit" key={hero.id}>
-            <HeroPortrait hero={hero} {... heroSelectable(hero) && {onClick: heroClick(hero)}} />
+            <HeroPortrait hero={hero} {... heroSelectable(hero) && {onClick: heroClick(hero)}} banned={bannedHeroes.includes(hero)} />
           </div>
         ))
         }

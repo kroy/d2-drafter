@@ -1,7 +1,7 @@
 import { Attribute, Hero, placeholderHero } from "../../types/Hero";
 import classnames from 'classnames';
 
-export default function HeroPortrait({ hero, onClick }: { hero: Hero, onClick?: () => void }) {
+export default function HeroPortrait({ hero, onClick, banned = false }: { hero: Hero, onClick?: () => void, banned?: boolean }) {
   const isPlaceholder: boolean = hero.id === placeholderHero.id;
   const attrColors: Map<Attribute, string> = new Map([["str","bg-red-700"], ["agi", "bg-emerald-700"], ["int", "bg-sky-700"]]);
   const attrColor: string = isPlaceholder? "" : (attrColors.get(hero.primary_attr) || "");
@@ -14,6 +14,9 @@ export default function HeroPortrait({ hero, onClick }: { hero: Hero, onClick?: 
           {
             "ring-amber-400": !isPlaceholder,
             "ring-slate-500": isPlaceholder || !onClick,
+            "decoration-amber-400": banned,
+            "line-through": banned,
+            "decoration-4": banned,
             "cursor-pointer": onClick
           }
         )
