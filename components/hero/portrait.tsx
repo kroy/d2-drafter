@@ -9,7 +9,7 @@ export default function HeroPortrait({ hero, onClick, banned = false }: { hero: 
     <div
       className={
         classnames(
-          "p-0.5 font-mono font-small font-light w-28 h-14 rounded-lg ring-2",
+          "p-0.5 font-mono font-small font-light w-28 h-14 rounded-lg ring-2 flex items-center justify-center",
           attrColor,
           {
             "ring-amber-400": !isPlaceholder,
