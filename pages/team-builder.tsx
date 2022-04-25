@@ -65,8 +65,8 @@ export default function TeamBuilder({ heroes } : {
       </Head>
       <TeamBuilderDispatch.Provider value={dispatch}>
         <div className="sticky top-0 bg-slate-800/90 flex flex-row flex-wrap">
-          <HeroTeam {...state.radiant} teamName="radiant" />
-          {false && <HeroTeam {...state.dire} teamName="dire" />}
+          <HeroTeam {...state.radiant} side="radiant" />
+          {false && <HeroTeam {...state.dire} side="dire" />}
         </div>
         <div className="max-w-fit">
             <HeroGroup name="Strength" heroes={strHeroes} selectedHeroes={selectedHeroes} bannedHeroes={state.bans.selectedHeroes} />

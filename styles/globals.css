@@ -13,6 +13,10 @@ body {
   box-sizing: border-box;
 }
 
+input {
+  @apply focus:outline-current focus:outline focus:outline-1;
+}
+
 a {
   @apply text-pink-300;
   text-decoration: none;
