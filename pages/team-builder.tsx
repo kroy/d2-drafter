@@ -48,7 +48,8 @@ export default function TeamBuilder({ heroes } : {
   heroes: Hero[]
 }) {
 
-  const [state, dispatch] = useReducer(reducer, initialStateWithRandomBans(heroes));
+  // const [state, dispatch] = useReducer(reducer, initialStateWithRandomBans(heroes));
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const compareHeroes = (a: Hero, b: Hero) : number => {
     return a.localized_name.localeCompare(b.localized_name);
