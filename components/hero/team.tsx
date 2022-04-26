@@ -20,7 +20,11 @@ async function fetchRandomTeamName(heroName?: string): Promise<String> {
     let noun = nounResponse[0];
     heroName = noun.charAt(0).toLocaleUpperCase().concat(noun.substring(1))
   }
-  return `${adjective} ${heroName}s`;
+  let randomTeamName : string = `${adjective} ${heroName}`;
+  if (randomTeamName.charAt(randomTeamName.length - 1) === "s") {
+    return randomTeamName;
+  }
+  return randomTeamName + "s";
 }
 
 export default function HeroTeam({ selectedHeroes, side = "radiant", size = 5 } : { selectedHeroes: Hero[], side?: Team, size?: number }) {
