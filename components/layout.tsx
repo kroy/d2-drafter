@@ -16,9 +16,12 @@ export default function Layout({
     <div className="">
       <Head>
         <link rel="icon" href="/sand_king_icon.ico" />
+        <meta property="og:description" content="Practice drafting and building teams for Dota 2"/>
+        <meta property="og:title" content="Dota 2 Drafter"/>
+        <meta property="og:image" content="https://d2-drafter.vercel.app/images/sand_king.png"/>
         <meta
           name="description"
-          content="Learn how to build a personal website using Next.js"
+          content="Practice drafting and building teams for Dota 2"
         />
       </Head>
       <header>
