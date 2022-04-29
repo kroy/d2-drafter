@@ -67,17 +67,17 @@ export default function HeroTeam({ selectedHeroes, side = "radiant", size = 5, r
         {selectedHeroes.map((hero) => (
           <HeroPortrait key={hero.id} hero={hero} onClick={heroClick(hero)}>
             <ul className="p-0.5 w-full flex flex-row">
-              <li className={classNames("basis-1/4", {"text-amber-400": heroHasLane(hero, "offlane")})} onClick={laneAssigner(hero, "offlane")}><IconCornerUpRight /></li>
-              <li className={classNames("basis-1/4", {"text-amber-400": heroHasLane(hero, "middle")})} onClick={laneAssigner(hero, "middle")}><IconArrowUpRight /></li>
-              <li className={classNames("basis-1/4", {"text-amber-400": heroHasLane(hero, "safelane")})} onClick={laneAssigner(hero, "safelane")}><IconCornerRightUp /></li>
-              <li className={classNames("basis-1/4", {"text-amber-400": heroHasLane(hero, "jungle")})} onClick={laneAssigner(hero, "jungle")}><IconChristmasTree /></li>
+              <li className={classNames("basis-1/4 hover:cursor-pointer", {"text-amber-400": heroHasLane(hero, "offlane")})} onClick={laneAssigner(hero, "offlane")}><IconCornerUpRight /></li>
+              <li className={classNames("basis-1/4 hover:cursor-pointer", {"text-amber-400": heroHasLane(hero, "middle")})} onClick={laneAssigner(hero, "middle")}><IconArrowUpRight /></li>
+              <li className={classNames("basis-1/4 hover:cursor-pointer", {"text-amber-400": heroHasLane(hero, "safelane")})} onClick={laneAssigner(hero, "safelane")}><IconCornerRightUp /></li>
+              <li className={classNames("basis-1/4 hover:cursor-pointer", {"text-amber-400": heroHasLane(hero, "jungle")})} onClick={laneAssigner(hero, "jungle")}><IconChristmasTree /></li>
             </ul>
             <ul className="p-0.5 w-full flex flex-row">
-              <li className={classNames("basis-1/5", {"text-amber-400": heroHasRole(hero, "carry")})} onClick={roleAssigner(hero, "carry")}><IconDice1 /></li>
-              <li className={classNames("basis-1/5", {"text-amber-400": heroHasRole(hero, "mid")})} onClick={roleAssigner(hero, "mid")}><IconDice2 /></li>
-              <li className={classNames("basis-1/5", {"text-amber-400": heroHasRole(hero, "offlaner")})} onClick={roleAssigner(hero, "offlaner")}><IconDice3 /></li>
-              <li className={classNames("basis-1/5", {"text-amber-400": heroHasRole(hero, "softSupport")})} onClick={roleAssigner(hero, "softSupport")}><IconDice4 /></li>
-              <li className={classNames("basis-1/5", {"text-amber-400": heroHasRole(hero, "hardSupport")})} onClick={roleAssigner(hero, "hardSupport")}><IconDice5 /></li>
+              <li className={classNames("basis-1/5 hover:cursor-pointer", {"text-amber-400": heroHasRole(hero, "carry")})} onClick={roleAssigner(hero, "carry")}><IconDice1 /></li>
+              <li className={classNames("basis-1/5 hover:cursor-pointer", {"text-amber-400": heroHasRole(hero, "mid")})} onClick={roleAssigner(hero, "mid")}><IconDice2 /></li>
+              <li className={classNames("basis-1/5 hover:cursor-pointer", {"text-amber-400": heroHasRole(hero, "offlaner")})} onClick={roleAssigner(hero, "offlaner")}><IconDice3 /></li>
+              <li className={classNames("basis-1/5 hover:cursor-pointer", {"text-amber-400": heroHasRole(hero, "softSupport")})} onClick={roleAssigner(hero, "softSupport")}><IconDice4 /></li>
+              <li className={classNames("basis-1/5 hover:cursor-pointer", {"text-amber-400": heroHasRole(hero, "hardSupport")})} onClick={roleAssigner(hero, "hardSupport")}><IconDice5 /></li>
             </ul>
             </HeroPortrait>
         ))}
