@@ -1,69 +1,85 @@
-import { Action, Team, TeamBuilderDispatch } from "../../pages/team-builder"
+import { Action, Lane, LaneState, Role, RoleState, Team, TeamBuilderDispatch } from "../../pages/team-builder"
 import HeroPortrait from "./portrait"
 import HeroTeamName from "./team/name"
 import { Hero, placeholderHero } from "../../types/Hero"
 import React, { Dispatch, useContext, useEffect, useState } from "react"
-import { siteTitle } from "../layout"
+import { IconArrowUpRight, IconChristmasTree, IconCornerUpRight, IconCornerRightUp, IconDice1, IconDice2, IconDice3, IconDice4, IconDice5 } from "@tabler/icons";
+import classNames from "classnames"
 
 function range(r: number): number[] {
   return Array.from(Array(r).keys())
 }
 
-async function fetchRandomTeamName(heroName?: string): Promise<String> {
-  let firstLetter = heroName ? heroName.charAt(0) : "";
-  const adjectiveResponse : String[] = await fetch('https://random-word-form.herokuapp.com/random/adjective/' + firstLetter).then(res => res.json())
-  let adjective = adjectiveResponse[0];
-  adjective = adjective.charAt(0).toLocaleUpperCase().concat(adjective.substring(1))
-  if (!heroName) {
-    firstLetter = adjective.charAt(0);
-    const nounResponse = await fetch('https://random-word-form.herokuapp.com/random/noun/' + firstLetter).then(res => res.json())
-    let noun = nounResponse[0];
-    heroName = noun.charAt(0).toLocaleUpperCase().concat(noun.substring(1))
-  }
-  let randomTeamName : string = `${adjective} ${heroName}`;
-  if (randomTeamName.charAt(randomTeamName.length - 1) === "s") {
-    return randomTeamName;
-  }
-  return randomTeamName + "s";
-}
-
-export default function HeroTeam({ selectedHeroes, side = "radiant", size = 5 } : { selectedHeroes: Hero[], side?: Team, size?: number }) {
-  useEffect(() => {
-    if (selectedHeroes.length === 0) {
-      setTeamNamePinned(false);
-    }
-    if (!teamNamePinned) {
-      const randomHeroName = selectedHeroes.length == 0 ? undefined : selectedHeroes[Math.floor(Math.random() * selectedHeroes.length)].localized_name
-      fetchRandomTeamName(randomHeroName).then(namePiece => setTeamName(`The ${namePiece}`))
-    }
-  }, [selectedHeroes]);
+export default function HeroTeam({ selectedHeroes, side = "radiant", size = 5, roles, lanes } : { selectedHeroes: Hero[], side?: Team, size?: number, roles: RoleState, lanes: LaneState }) {
 
   const dispatch: Dispatch<Action> = useContext(TeamBuilderDispatch);
   const placeholderCount: number = size - selectedHeroes.length;
 
   const [copied, setCopy] = useState(false);
-  const [teamName, setTeamName] = useState("");
-  const [teamNamePinned, setTeamNamePinned] = useState(false);
+  const [teamName, setTeamName] = useState("My Awesome Team");
 
   const heroClick = (hero: Hero) => (() => dispatch({type: "deselectHero", team: side, hero: hero}));
   const onTeamNameChange = (e: React.FormEvent<HTMLInputElement>) => setTeamName(e.currentTarget.value);
-  const onTeamNameFocus = (e: React.FormEvent<HTMLInputElement>) => setTeamNamePinned(true);
   const clearTeam = () => dispatch({type: "clearTeam", team: side});
   const shareTeam = () => {
+    let lanesOutput : string = "";
+    for (const lane of Object.keys(lanes)) {
+      lanesOutput += `\n  ${lane}: ${lanes[lane as Lane].map((hero) => hero.localized_name).join(", ")}`;
+    }
+    let rolesOutput : string = "";
+    for (const role of Object.keys(roles)) {
+      rolesOutput += `\n  ${role}: ${roles[role as Role]!.localized_name}`;
+    }
+
     navigator.clipboard.writeText(
       `${teamName}: ` +
-      selectedHeroes.map((hero) => hero.localized_name).join(" - ")
+      selectedHeroes.map((hero) => hero.localized_name).join(" - ") +
+      lanesOutput +
+      rolesOutput
     );
     setCopy(true);
     setTimeout(() => setCopy(false), 2000);
   }
 
+  function laneAssigner(hero: Hero, lane: Lane): () => void {
+    let actionType: "assignLane" | "unassignLane" = "assignLane";
+    if (lanes[lane].includes(hero)) {
+      actionType = "unassignLane"
+    }
+      
+    return () => dispatch({ type: actionType, hero: hero, team: side, lane: lane })
+  };
+  function roleAssigner(hero: Hero, role: Role): () => void {
+    let actionType: "assignRole" | "unassignRole" = "assignRole";
+    if (roles[role] == hero) {
+      actionType = "unassignRole"
+    }
+      
+    return () => dispatch({ type: actionType, hero: hero, team: side, role: role })
+  };
+  const heroHasLane = (hero: Hero, lane: Lane) => lanes[lane].includes(hero);
+  const heroHasRole = (hero: Hero, role: Role) => roles[role] === hero;
+
   return (
     <div className="p-4 lg:w-1/2 flex flex-row flex-wrap justify-center gap-4">
-      <HeroTeamName teamName={teamName} onChange={onTeamNameChange} onFocus={onTeamNameFocus} />
+      <HeroTeamName teamName={teamName} onChange={onTeamNameChange} />
       <div className="flex flex-row flex-wrap justify-center gap-4 max-h-fit">
         {selectedHeroes.map((hero) => (
-          <HeroPortrait key={hero.id} hero={hero} onClick={heroClick(hero)} />
+          <HeroPortrait key={hero.id} hero={hero} onClick={heroClick(hero)}>
+            <ul className="p-0.5 w-full flex flex-row">
+              <li className={classNames("basis-1/4", {"text-amber-400": heroHasLane(hero, "offlane")})} onClick={laneAssigner(hero, "offlane")}><IconCornerUpRight /></li>
+              <li className={classNames("basis-1/4", {"text-amber-400": heroHasLane(hero, "middle")})} onClick={laneAssigner(hero, "middle")}><IconArrowUpRight /></li>
+              <li className={classNames("basis-1/4", {"text-amber-400": heroHasLane(hero, "safelane")})} onClick={laneAssigner(hero, "safelane")}><IconCornerRightUp /></li>
+              <li className={classNames("basis-1/4", {"text-amber-400": heroHasLane(hero, "jungle")})} onClick={laneAssigner(hero, "jungle")}><IconChristmasTree /></li>
+            </ul>
+            <ul className="p-0.5 w-full flex flex-row">
+              <li className={classNames("basis-1/5", {"text-amber-400": heroHasRole(hero, "carry")})} onClick={roleAssigner(hero, "carry")}><IconDice1 /></li>
+              <li className={classNames("basis-1/5", {"text-amber-400": heroHasRole(hero, "mid")})} onClick={roleAssigner(hero, "mid")}><IconDice2 /></li>
+              <li className={classNames("basis-1/5", {"text-amber-400": heroHasRole(hero, "offlaner")})} onClick={roleAssigner(hero, "offlaner")}><IconDice3 /></li>
+              <li className={classNames("basis-1/5", {"text-amber-400": heroHasRole(hero, "softSupport")})} onClick={roleAssigner(hero, "softSupport")}><IconDice4 /></li>
+              <li className={classNames("basis-1/5", {"text-amber-400": heroHasRole(hero, "hardSupport")})} onClick={roleAssigner(hero, "hardSupport")}><IconDice5 /></li>
+            </ul>
+            </HeroPortrait>
         ))}
         {placeholderCount > 0 && range(placeholderCount).map((placeholderId) => (
           <HeroPortrait key={`placeholder-${placeholderId}`} hero={placeholderHero} />
