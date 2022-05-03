@@ -3,7 +3,7 @@ import { GetStaticProps } from "next";
 
 export default function TeamsIndex({ teams } : { teams: PlayerTeam[] }) {
   return (<div>
-    {teams.map((team) => (<div>{team.name}</div>))}
+    {teams.map((team) => (<div key={team.id}>{team.name}</div>))}
   </div>)
 }
 

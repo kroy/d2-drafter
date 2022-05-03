@@ -6,7 +6,7 @@ import { OpenDota } from "opendota.js";
 export default function Games({ player } : { player: { id: string, nickname: string, recentMatches: { matchId: number, heroId: number}[] } }) {
   return (
   <div>{player.nickname}
-    {player.recentMatches.map((match) => (<div>{match.matchId} {match.heroId}</div>)) }
+    {player.recentMatches.map((match) => (<div key={match.matchId}>{match.matchId} {match.heroId}</div>)) }
   </div>);
 }
 
