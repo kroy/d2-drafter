@@ -1,8 +1,6 @@
 import Head from 'next/head'
-import Image from 'next/image'
 import Link from 'next/link'
 
-const name = 'Kiron'
 export const siteTitle = 'Dota 2 Drafter'
 
 export default function Layout({

@@ -1,0 +1,33 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["cockroachdb"]
+}
+
+datasource db {
+  provider = "cockroachdb"
+  url      = env("DATABASE_URL")
+}
+
+model SteamAccount {
+  id        String    @id(map: "primary") @db.Uuid @default(uuid())
+  steam_id  BigInt
+  nickname  String    @db.String(255)
+  player    Player    @relation(fields: [player_id], references: [id])
+  player_id String    @db.Uuid
+}
+
+model Player {
+  id        String    @id(map: "primary") @db.Uuid @default(uuid())
+  name      String    @db.String(255)
+  steam_account SteamAccount?
+  teams     PlayerTeam[]
+}
+
+model PlayerTeam {
+  id        String    @id(map: "primary") @db.Uuid @default(uuid())
+  name      String    @db.String(255)
+  players   Player[]
+}
