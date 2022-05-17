@@ -2,12 +2,12 @@ import { GetStaticProps } from 'next';
 import Head from "next/head";
 import { OpenDota } from 'opendota.js';
 import { Reducer, useReducer } from "react";
-import { initialState, State } from '../types/AppState';
-import type { Action } from '../types/AppActions';
 import { reducer, TeamBuilderDispatch } from "../app/reducer";
 import HeroGroup from "../components/hero/group";
 import HeroTeam from "../components/hero/team";
 import Layout from "../components/layout";
+import type { Action } from '../types/AppActions';
+import { initialState, State } from '../types/AppState';
 import type { Hero } from '../types/Hero';
 
 export default function TeamBuilder({ heroes } : {

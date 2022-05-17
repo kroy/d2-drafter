@@ -1,10 +1,30 @@
 import type { Team, Role, Lane } from "./Team";
 import type { Hero } from "./Hero";
 
-export type Action = {type: "selectHero", team: Team, hero: Hero} |
-  {type: "deselectHero", team: Team, hero: Hero} |
-  {type: "assignRole", team: Team, hero: Hero, role: Role} |
-  {type: "unassignRole", team: Team, hero: Hero, role: Role} |
-  {type: "assignLane", team: Team, hero: Hero, lane: Lane} |
-  {type: "unassignLane", team: Team, hero: Hero, lane: Lane} |
-  {type: "clearTeam", team: Team};
+export interface TeamBuilderAction {
+  type: string;
+  team: Team;
+}
+export interface HeroSelectAction extends TeamBuilderAction {
+  type: "deselectHero" | "selectHero";
+  hero: Hero;
+}
+
+export interface RoleAssignmentAction extends TeamBuilderAction {
+  type: "assignRole" | "unassignRole";
+  hero: Hero;
+  role: Role;
+}
+
+export interface LaneAssignmentAction extends TeamBuilderAction {
+  type: "assignLane" | "unassignLane"
+  hero: Hero;
+  lane: Lane;
+}
+
+export interface ClearTeamAction extends TeamBuilderAction {
+  type: "clearTeam";
+}
+
+export type AppAction = HeroSelectAction | RoleAssignmentAction |
+  LaneAssignmentAction | ClearTeamAction;

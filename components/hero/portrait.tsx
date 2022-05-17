@@ -1,5 +1,5 @@
-import { Attribute, Hero, placeholderHero } from "../../types/Hero";
 import classnames from 'classnames';
+import { Attribute, Hero, placeholderHero } from "../../types/Hero";
 
 export default function HeroPortrait({ hero, onClick, banned = false, children }: { hero: Hero, onClick?: () => void, banned?: boolean, children?: React.ReactNode }) {
   const isPlaceholder: boolean = hero.id === placeholderHero.id;

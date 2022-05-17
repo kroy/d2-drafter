@@ -1,11 +1,11 @@
 import { createContext, Dispatch, Reducer } from "react"
-import type { Action } from "../types/AppActions";
+import type { AppAction } from "../types/AppActions";
 import type { State, RoleState, LaneState } from "../types/AppState";
 import { initialState } from "../types/AppState";
 
-export const TeamBuilderDispatch = createContext<Dispatch<Action>>(undefined!)
+export const TeamBuilderDispatch = createContext<Dispatch<AppAction>>(undefined!)
 
-export const reducer: Reducer<State, Action> = (state, action) => {
+export const reducer: Reducer<State, AppAction> = (state, action) => {
   let currRoles : RoleState;
   let currLanes : LaneState;
   switch (action.type) {

@@ -1,13 +1,13 @@
+import { IconArrowUpRight, IconChristmasTree, IconCornerRightUp, IconCornerUpRight, IconDice1, IconDice2, IconDice3, IconDice4, IconDice5 } from "@tabler/icons"
+import classNames from "classnames"
+import React, { Dispatch, useState } from "react"
+import { useAppReducer } from "../../hooks/useAppReducer"
+import type { AppAction } from "../../types/AppActions"
+import type { LaneState, RoleState } from "../../types/AppState"
+import { Hero, placeholderHero } from "../../types/Hero"
+import type { Lane, Role, Team } from "../../types/Team"
 import HeroPortrait from "./portrait"
 import HeroTeamName from "./team/name"
-import { Hero, placeholderHero } from "../../types/Hero"
-import type { Action } from "../../types/AppActions"
-import type { LaneState, RoleState } from "../../types/AppState"
-import type { Lane, Team, Role } from "../../types/Team"
-import React, { Dispatch, useState } from "react"
-import { IconArrowUpRight, IconChristmasTree, IconCornerUpRight, IconCornerRightUp, IconDice1, IconDice2, IconDice3, IconDice4, IconDice5 } from "@tabler/icons";
-import classNames from "classnames"
-import { useAppReducer } from "../../hooks/useAppReducer"
 
 function range(r: number): number[] {
   return Array.from(Array(r).keys())
@@ -15,7 +15,7 @@ function range(r: number): number[] {
 
 export default function HeroTeam({ selectedHeroes, side = "radiant", size = 5, roles, lanes } : { selectedHeroes: Hero[], side?: Team, size?: number, roles: RoleState, lanes: LaneState }) {
 
-  const dispatch: Dispatch<Action> = useAppReducer();
+  const dispatch: Dispatch<AppAction> = useAppReducer();
   const placeholderCount: number = size - selectedHeroes.length;
 
   const [copied, setCopy] = useState(false);
