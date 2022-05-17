@@ -1,11 +1,12 @@
 import { Dispatch, useContext, useState } from "react";
 import { Hero } from "../../types/Hero";
-import { TeamBuilderDispatch, Action } from "../../pages/team-builder";
+import type { AppAction } from "../../types/AppAction";
+import { useAppReducer } from "../../hooks/useAppReducer";
 import HeroPortrait from "./portrait";
 
 export default function HeroGroup({ name, heroes, selectedHeroes, bannedHeroes } : { name: string, heroes: Hero[], selectedHeroes: Hero[], bannedHeroes: Hero[] }) {
   const [collapsed, setCollapsed] = useState(false)
-  const dispatch: Dispatch<Action> = useContext(TeamBuilderDispatch);
+  const dispatch: Dispatch<AppAction> = useAppReducer();
   const heroClick = (hero: Hero) => (() => dispatch({type: "selectHero", team: "radiant", hero: hero}));
   const heroSelectable = (hero: Hero) => !selectedHeroes.concat(bannedHeroes).includes(hero);
   const toggleCollapsed = () => setCollapsed(!collapsed)

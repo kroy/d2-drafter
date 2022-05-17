@@ -1,10 +1,13 @@
-import { Action, Lane, LaneState, Role, RoleState, Team, TeamBuilderDispatch } from "../../pages/team-builder"
+import { IconArrowUpRight, IconChristmasTree, IconCornerRightUp, IconCornerUpRight, IconDice1, IconDice2, IconDice3, IconDice4, IconDice5 } from "@tabler/icons"
+import classNames from "classnames"
+import React, { Dispatch, useState } from "react"
+import { useAppReducer } from "../../hooks/useAppReducer"
+import type { AppAction } from "../../types/AppAction"
+import type { LaneState, RoleState } from "../../types/AppState"
+import { Hero, placeholderHero } from "../../types/Hero"
+import type { Lane, Role, Team } from "../../types/Team"
 import HeroPortrait from "./portrait"
 import HeroTeamName from "./team/name"
-import { Hero, placeholderHero } from "../../types/Hero"
-import React, { Dispatch, useContext, useEffect, useState } from "react"
-import { IconArrowUpRight, IconChristmasTree, IconCornerUpRight, IconCornerRightUp, IconDice1, IconDice2, IconDice3, IconDice4, IconDice5 } from "@tabler/icons";
-import classNames from "classnames"
 
 function range(r: number): number[] {
   return Array.from(Array(r).keys())
@@ -12,7 +15,7 @@ function range(r: number): number[] {
 
 export default function HeroTeam({ selectedHeroes, side = "radiant", size = 5, roles, lanes } : { selectedHeroes: Hero[], side?: Team, size?: number, roles: RoleState, lanes: LaneState }) {
 
-  const dispatch: Dispatch<Action> = useContext(TeamBuilderDispatch);
+  const dispatch: Dispatch<AppAction> = useAppReducer();
   const placeholderCount: number = size - selectedHeroes.length;
 
   const [copied, setCopy] = useState(false);
