@@ -1,7 +1,7 @@
 import { Dispatch, useContext } from "react";
 import { TeamBuilderDispatch } from "../app/reducer";
-import { Action } from "../types/AppActions";
+import { AppAction } from "../types/AppAction";
 
-export function useAppReducer(): Dispatch<Action> {
-  return useContext<Dispatch<Action>>(TeamBuilderDispatch)
+export function useAppReducer(): Dispatch<AppAction> {
+  return useContext<Dispatch<AppAction>>(TeamBuilderDispatch)
 }

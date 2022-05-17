@@ -6,7 +6,7 @@ import { reducer, TeamBuilderDispatch } from "../app/reducer";
 import HeroGroup from "../components/hero/group";
 import HeroTeam from "../components/hero/team";
 import Layout from "../components/layout";
-import type { Action } from '../types/AppActions';
+import type { AppAction } from '../types/AppAction';
 import { initialState, State } from '../types/AppState';
 import type { Hero } from '../types/Hero';
 
@@ -14,7 +14,7 @@ export default function TeamBuilder({ heroes } : {
   heroes: Hero[]
 }) {
   // const [state, dispatch] = useReducer(reducer, initialStateWithRandomBans(heroes));
-  const [state, dispatch] = useReducer<Reducer<State, Action>>(reducer, initialState);
+  const [state, dispatch] = useReducer<Reducer<State, AppAction>>(reducer, initialState);
 
   const compareHeroes = (a: Hero, b: Hero) : number => {
     return a.localized_name.localeCompare(b.localized_name);

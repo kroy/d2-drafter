@@ -2,7 +2,7 @@ import { IconArrowUpRight, IconChristmasTree, IconCornerRightUp, IconCornerUpRig
 import classNames from "classnames"
 import React, { Dispatch, useState } from "react"
 import { useAppReducer } from "../../hooks/useAppReducer"
-import type { AppAction } from "../../types/AppActions"
+import type { AppAction } from "../../types/AppAction"
 import type { LaneState, RoleState } from "../../types/AppState"
 import { Hero, placeholderHero } from "../../types/Hero"
 import type { Lane, Role, Team } from "../../types/Team"

@@ -1,5 +1,5 @@
 import { createContext, Dispatch, Reducer } from "react"
-import type { AppAction } from "../types/AppActions";
+import type { AppAction } from "../types/AppAction";
 import type { State, RoleState, LaneState } from "../types/AppState";
 import { initialState } from "../types/AppState";
 
